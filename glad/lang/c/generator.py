@@ -320,7 +320,7 @@ class CGenerator(Generator):
         )
         fobj.write('GLAPI PFN{}PROC glad_{};\n'.format(func.proto.name.upper(),
                                                        func.proto.name))
-        fobj.write('#define {0} glad_{0}\n'.format(func.proto.name))
+        fobj.write('#define q{0} glad_{0}\n'.format(func.proto.name))
 
     def write_function(self, fobj, func):
         fobj.write('PFN{}PROC glad_{} = NULL;\n'.format(func.proto.name.upper(),
