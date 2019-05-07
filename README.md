@@ -1,3 +1,9 @@
+TDM-glad
+========
+
+This is a fork of original glad GL loader, customized for [TheDarkMod](http://www.thedarkmod.com) game.
+Original readme of glad project follows.
+
 glad
 ====
 
