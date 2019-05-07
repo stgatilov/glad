@@ -80,7 +80,7 @@ static int has_ext(const char *ext) {
     if(!GLAD_GLX_VERSION_1_1)
         return 0;
 
-    extensions = glXQueryExtensionsString(GLADGLXDisplay, GLADGLXscreen);
+    extensions = glad_glXQueryExtensionsString(GLADGLXDisplay, GLADGLXscreen);
 
     if(extensions == NULL || ext == NULL)
         return 0;
@@ -111,8 +111,8 @@ class GLXCLoader(BaseLoader):
             fobj.write(_GLX_LOADER)
 
     def write_begin_load(self, fobj):
-        fobj.write('\tglXQueryVersion = (PFNGLXQUERYVERSIONPROC)load("glXQueryVersion");\n')
-        fobj.write('\tif(glXQueryVersion == NULL) return 0;\n')
+        fobj.write('\tglad_glXQueryVersion = (PFNGLXQUERYVERSIONPROC)load("glXQueryVersion");\n')
+        fobj.write('\tif(glad_glXQueryVersion == NULL) return 0;\n')
 
     def write_end_load(self, fobj):
         fobj.write('\treturn 1;\n')
@@ -126,7 +126,7 @@ class GLXCLoader(BaseLoader):
         fobj.write('\t\tdpy = GLADGLXDisplay;\n')
         fobj.write('\t\tscreen = GLADGLXscreen;\n')
         fobj.write('\t}\n')
-        fobj.write('\tglXQueryVersion(dpy, &major, &minor);\n')
+        fobj.write('\tglad_glXQueryVersion(dpy, &major, &minor);\n')
         fobj.write('\tGLADGLXDisplay = dpy;\n')
         fobj.write('\tGLADGLXscreen = screen;\n')
 

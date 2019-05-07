@@ -83,13 +83,13 @@ static int has_ext(const char *ext) {
     const char *loc;
     const char *extensions;
 
-    if(wglGetExtensionsStringEXT == NULL && wglGetExtensionsStringARB == NULL)
+    if(glad_wglGetExtensionsStringEXT == NULL && glad_wglGetExtensionsStringARB == NULL)
         return 0;
 
-    if(wglGetExtensionsStringARB == NULL || GLADWGLhdc == INVALID_HANDLE_VALUE)
-        extensions = wglGetExtensionsStringEXT();
+    if(glad_wglGetExtensionsStringARB == NULL || GLADWGLhdc == INVALID_HANDLE_VALUE)
+        extensions = glad_wglGetExtensionsStringEXT();
     else
-        extensions = wglGetExtensionsStringARB(GLADWGLhdc);
+        extensions = glad_wglGetExtensionsStringARB(GLADWGLhdc);
 
     if(extensions == NULL || ext == NULL)
         return 0;
@@ -118,9 +118,9 @@ class WGLCLoader(BaseLoader):
             fobj.write(_WGL_LOADER)
 
     def write_begin_load(self, fobj):
-        fobj.write('\twglGetExtensionsStringARB = (PFNWGLGETEXTENSIONSSTRINGARBPROC)load("wglGetExtensionsStringARB");\n')
-        fobj.write('\twglGetExtensionsStringEXT = (PFNWGLGETEXTENSIONSSTRINGEXTPROC)load("wglGetExtensionsStringEXT");\n')
-        fobj.write('\tif(wglGetExtensionsStringARB == NULL && wglGetExtensionsStringEXT == NULL) return 0;\n')
+        fobj.write('\tglad_wglGetExtensionsStringARB = (PFNWGLGETEXTENSIONSSTRINGARBPROC)load("wglGetExtensionsStringARB");\n')
+        fobj.write('\tglad_wglGetExtensionsStringEXT = (PFNWGLGETEXTENSIONSSTRINGEXTPROC)load("wglGetExtensionsStringEXT");\n')
+        fobj.write('\tif(glad_wglGetExtensionsStringARB == NULL && glad_wglGetExtensionsStringEXT == NULL) return 0;\n')
 
     def write_end_load(self, fobj):
         fobj.write('\treturn 1;\n')
