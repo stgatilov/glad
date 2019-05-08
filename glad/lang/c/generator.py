@@ -268,7 +268,8 @@ class CGenerator(Generator):
         self.write_enums(f, written, extensions)
 
         for ext in extensions:
-            f.write('#ifndef {0}\n#define {0} 1\n'.format(ext.name))
+            #f.write('#ifndef {0}\n#define {0} 1\n'.format(ext.name))
+            f.write('#if defined(GLAD_COMPILE_LOADER) || {0}\n'.format(ext.name))
             if self.spec.NAME in ('gl', 'glx', 'wgl'):
                 f.write('GLAPI int GLAD_{};\n'.format(ext.name))
             if ext.name == 'GLX_SGIX_video_source': f.write('#ifdef _VL_H_\n')
@@ -298,7 +299,9 @@ class CGenerator(Generator):
                 f.write('GLAPI int gladLoad{}Loader(GLADloadproc);\n\n'.format(api.upper()))
 
     def write_code_head(self, f):
-        f.write('#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n#include {}\n'.format(self.h_include))
+        f.write('#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n')
+        f.write('#define GLAD_COMPILE_LOADER\n')
+        f.write('#include {}\n'.format(self.h_include))
 
     def write_extern(self, fobj):
         fobj.write('#ifdef __cplusplus\nextern "C" {\n#endif\n')
