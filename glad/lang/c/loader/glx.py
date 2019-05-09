@@ -111,6 +111,9 @@ class GLXCLoader(BaseLoader):
             fobj.write(_GLX_LOADER)
 
     def write_begin_load(self, fobj):
+        # this is excessive, but we need basic GLX functions when no context is available
+        fobj.write('\tfind_coreGLX(dpy, screen);\n');
+
         fobj.write('\tglad_glXQueryVersion = (PFNGLXQUERYVERSIONPROC)load("glXQueryVersion");\n')
         fobj.write('\tif(glad_glXQueryVersion == NULL) return 0;\n')
 
@@ -118,7 +121,7 @@ class GLXCLoader(BaseLoader):
         fobj.write('\treturn 1;\n')
 
     def write_find_core(self, fobj):
-        fobj.write('\tint major = 0, minor = 0;\n')
+        fobj.write('\tint major = 1, minor = 0;\n')
         fobj.write('\tif(dpy == 0 && GLADGLXDisplay == 0) {\n')
         fobj.write('\t\tdpy = XOpenDisplay(0);\n')
         fobj.write('\t\tscreen = XScreenNumberOfScreen(XDefaultScreenOfDisplay(dpy));\n')
@@ -126,7 +129,8 @@ class GLXCLoader(BaseLoader):
         fobj.write('\t\tdpy = GLADGLXDisplay;\n')
         fobj.write('\t\tscreen = GLADGLXscreen;\n')
         fobj.write('\t}\n')
-        fobj.write('\tglad_glXQueryVersion(dpy, &major, &minor);\n')
+        fobj.write('\tif (glad_glXQueryVersion)\n')
+        fobj.write('\t\tglad_glXQueryVersion(dpy, &major, &minor);\n')
         fobj.write('\tGLADGLXDisplay = dpy;\n')
         fobj.write('\tGLADGLXscreen = screen;\n')
 
