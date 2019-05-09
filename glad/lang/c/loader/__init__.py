@@ -44,7 +44,7 @@ int %(init)s(void) {
 %(pre)s
 void %(terminate)s(void) {
     if(libGL != NULL) {
-        FreeLibrary((HMODULE) libGL);
+        //FreeLibrary((HMODULE) libGL);
         libGL = NULL;
     }
 }
@@ -91,7 +91,7 @@ int %(init)s(void) {
 %(pre)s
 void %(terminate)s(void) {
     if(libGL != NULL) {
-        dlclose(libGL);
+        //dlclose(libGL);
         libGL = NULL;
     }
 }
