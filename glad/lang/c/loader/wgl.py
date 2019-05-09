@@ -118,6 +118,10 @@ class WGLCLoader(BaseLoader):
             fobj.write(_WGL_LOADER)
 
     def write_begin_load(self, fobj):
+        # this is excessive, but we need basic WGL functions when no context is available
+        fobj.write('\tfind_coreWGL(hdc);\n')
+        fobj.write('\tload_WGL_VERSION_1_0(load);\n')
+
         fobj.write('\tglad_wglGetExtensionsStringARB = (PFNWGLGETEXTENSIONSSTRINGARBPROC)load("wglGetExtensionsStringARB");\n')
         fobj.write('\tglad_wglGetExtensionsStringEXT = (PFNWGLGETEXTENSIONSSTRINGEXTPROC)load("wglGetExtensionsStringEXT");\n')
         fobj.write('\tif(glad_wglGetExtensionsStringARB == NULL && glad_wglGetExtensionsStringEXT == NULL) return 0;\n')
