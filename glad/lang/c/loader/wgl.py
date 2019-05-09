@@ -127,6 +127,7 @@ class WGLCLoader(BaseLoader):
 
     def write_find_core(self, fobj):
         fobj.write('\tGLADWGLhdc = hdc;\n')
+        fobj.write('\tint major = 1, minor = 0;\n')
 
     def write_has_ext(self, fobj):
         fobj.write(_WGL_HAS_EXT)

@@ -86,8 +86,8 @@ class CGenerator(Generator):
     def generate_loader(self, features, extensions):
         f = self._f_c
 
-        if self.spec.NAME in ('egl', 'wgl'):
-            features = {'egl': [], 'wgl': []}
+        #if self.spec.NAME in ('egl', 'wgl'):
+        #    features = {'egl': [], 'wgl': []}
 
         written = set()
         for api, version in self.api.items():
@@ -217,17 +217,17 @@ class CGenerator(Generator):
     def generate_features(self, features):
         f = self._f_h
         write = set()
-        if self.spec.NAME in ('wgl',):
-            # These are already defined in windows.h
-            pass
-        elif self.spec.NAME in ('egl',):
-            self.write_enums(f, set(), features)
-
-            for feature in features:
-                for func in feature.functions:
-                    self.write_function_def(f, func)
-        else:
-            self.write_functions(f, write, set(), features)
+        #if self.spec.NAME in ('wgl',):
+        #    # These are already defined in windows.h
+        #    pass
+        #elif self.spec.NAME in ('egl',):
+        #    self.write_enums(f, set(), features)
+        #
+        #    for feature in features:
+        #        for func in feature.functions:
+        #            self.write_function_def(f, func)
+        #else:
+        self.write_functions(f, write, set(), features)
 
         f = self._f_c
         self.write_code_head(f)
