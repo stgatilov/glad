@@ -13,6 +13,8 @@ for spec in ['gl', 'wgl', 'glx']:
         '--local-files',
         '--out-path=%s' % g_output_dir,
     ]
+    if spec == 'gl':
+        parts.append('--api="gl=3.0"')
     cmd = ' '.join(parts);
     print(cmd)
     os.system(cmd)
