@@ -76,7 +76,13 @@ static void free_exts(void) {
     }
 }
 
+char const* const* GLAD_GL_blacklisted_extensions = 0;
 static int has_ext(const char *ext) {
+    if (GLAD_GL_blacklisted_extensions)
+        for (int i = 0; GLAD_GL_blacklisted_extensions[i]; i++)
+            if (strcmp(ext, GLAD_GL_blacklisted_extensions[i]) == 0)
+                return 0;
+
 #ifdef _GLAD_IS_SOME_NEW_VERSION
     if(max_loaded_major < 3) {
 #endif
@@ -169,6 +175,7 @@ GLAPI struct gladGLversionStruct GLVersion;
 '''
 
 _OPENGL_HEADER_LOADER = '''
+extern char const* const* GLAD_GL_blacklisted_extensions;
 GLAPI int gladLoadGL(void);
 ''' + LOAD_OPENGL_DLL_H
 
